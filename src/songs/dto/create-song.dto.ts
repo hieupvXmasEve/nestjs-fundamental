@@ -1,27 +1,32 @@
-import { IsArray, IsDate, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsDateString,
+  IsMilitaryTime,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsNumber,
+} from 'class-validator';
 
-/**
- * Data Transfer Object for creating a new song
- */
-export class CreateSongDto {
-    @IsString()
-    @IsNotEmpty()
-    readonly title: string;
+export class CreateSongDTO {
+  @IsString()
+  @IsNotEmpty()
+  readonly title: string;
 
-    @IsArray()
-    @IsString({ each: true })
-    @IsNotEmpty()
-    readonly artists: string[];
+  @IsArray()
+  @IsNumber({}, { each: true })
+  @IsNotEmpty()
+  readonly artists: number[];
 
-    @IsDate()
-    @IsNotEmpty()
-    readonly releasedDate: Date;
+  @IsNotEmpty()
+  @IsDateString()
+  readonly releasedDate: Date;
 
-    @IsDate()
-    @IsNotEmpty()
-    readonly duration: Date;
+  @IsMilitaryTime()
+  @IsNotEmpty()
+  readonly duration: Date;
 
-    @IsString()
-    @IsOptional()
-    readonly lyrics?: string;
-} 
+  @IsString()
+  @IsOptional()
+  readonly lyrics: string;
+}

@@ -9,6 +9,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { Song } from './songs/models/song.entity';
+import { Artist } from './artists/models/artist.entity';
+import { User } from './users/models/user.entity';
 
 const devConfig = { port: 3000 };
 const proConfig = { port: 4000 };
@@ -17,7 +19,7 @@ const proConfig = { port: 4000 };
   imports: [
     SongsModule,
     ConfigModule.forRoot({
-      envFilePath: ['.env.local', '.env']
+      envFilePath: ['.env.local', '.env'],
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -26,13 +28,13 @@ const proConfig = { port: 4000 };
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
-      entities: [Song],
+      entities: [Song, Artist, User],
+      // autoLoadEntities: true,
       synchronize: true,
       ssl: {
         rejectUnauthorized: false,
       },
     }),
-
   ],
   controllers: [AppController],
   providers: [

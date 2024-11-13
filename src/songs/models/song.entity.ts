@@ -1,25 +1,27 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Artist } from '../../artists/models/artist.entity';
 
 /**
  * Represents a song entity in the database
  */
 @Entity('songs')
 export class Song {
-    @PrimaryGeneratedColumn()
-    readonly id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    readonly title: string;
+  @Column()
+  title: string;
 
-    @Column('varchar', { array: true })
-    readonly artists: string[];
+  @ManyToMany(() => Artist, (artist) => artist.songs, { cascade: true })
+  @JoinTable({ name: 'songs_artists' })
+  artists: Artist[];
 
-    @Column({ type: 'date' })
-    readonly releasedDate: Date;
+  @Column({ type: 'date' })
+  releasedDate: Date;
 
-    @Column({ type: 'time' })
-    readonly duration: Date;
+  @Column({ type: 'time' })
+  duration: Date;
 
-    @Column({ type: 'text' })
-    readonly lyrics: string;
-} 
+  @Column({ type: 'text' })
+  lyrics: string;
+}
